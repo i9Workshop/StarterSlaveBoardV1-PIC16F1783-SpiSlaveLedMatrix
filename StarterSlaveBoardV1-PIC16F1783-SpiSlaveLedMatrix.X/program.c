@@ -48,9 +48,9 @@ void programLoop(void) {
 }
 
 
-void ledMatrix_DelayScanInput(uint16_t delay) {
+void ledMatrix_DelayPollInput(uint16_t delay) {
     for(uint16_t i=0; i<delay; i++) {
-        spi_ScanMaster(); // Call SPI polling function
+        spi_PollMaster(); // Call SPI polling function
     }
 }
 
@@ -77,7 +77,7 @@ void ledMatrix_SetDisplay(uint16_t ledWord) { // Set LED matrix using 9bit binar
     led_GndRow2 = 1;
     led_GndRow3 = 1;
     
-    ledMatrix_DelayScanInput(delay);
+    ledMatrix_DelayPollInput(delay);
     
     // Second row
     
@@ -90,7 +90,7 @@ void ledMatrix_SetDisplay(uint16_t ledWord) { // Set LED matrix using 9bit binar
     led_GndRow2 = 0;
     led_GndRow3 = 1;
     
-    ledMatrix_DelayScanInput(delay);
+    ledMatrix_DelayPollInput(delay);
     
     // Third row
     
@@ -103,7 +103,7 @@ void ledMatrix_SetDisplay(uint16_t ledWord) { // Set LED matrix using 9bit binar
     led_GndRow2 = 1;
     led_GndRow3 = 0;
     
-    ledMatrix_DelayScanInput(delay);
+    ledMatrix_DelayPollInput(delay);
 }
 
 void spi_Initialize(void) {
@@ -115,7 +115,7 @@ void spi_Initialize(void) {
                      // Tioz = 2us
 }
 
-void spi_ScanMaster(void) {
+void spi_PollMaster(void) {
     // Single byte data transmit and receive - Page 263
     if(!spi_SS) { // Polling to wait for master communication
         spi_Data = SSPBUF; // Read data from MSSP module buffer - Page 266
